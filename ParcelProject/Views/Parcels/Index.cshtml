@@ -14,16 +14,24 @@
 
     <h1>Parcel List</h1>
 
-    @if (Model.Count == 0)
-    {
-      <p>There are no parcels in the list.</p>
-    }
-    <ul>
-      @foreach (Parcel parcel in Model)
+      @if (@Model.Length == 0 || @Model.Width == 0 || @Model.Height == 0 || @Model.Weight == 0)
       {
-        <li>Dimensions: @parcel.GetVolume(), Total Cost: @parcel.GetCostToShip()</li>
+        <h3>There was an error calculating your shipping cost</h3>
+        <p>Please ensure you enter all requested information</p>
+        <br>
+        <a href="/">Let's try that again</a>
       }
-    </ul>
-    <a href="/parcels/new">Add a new parcel.</a>
+
+    <ul>
+      @if (@Model.Length != 0 && @Model.Width != 0 && @Model.Height != 0 && @Model.Weight != 0)
+      {
+        <h3>Your shipping costs:</h3>
+        <p>Dimensions: @Model.Length"L x @Model.Width"W x @Model.Height"H</p>
+        <p>Total volume is @Model.GetVolume() cubic inches</p>
+        <p>Total package weight is @Model.Weight pounds</p>
+        <h5>The shipping total will be $@Model.GetCostToShip()</h5>
+        <a href="/">Check another package</a>
+      }
+        <a href="/parcels/new">Add a new parcel</a>
   </body>
 </html>
